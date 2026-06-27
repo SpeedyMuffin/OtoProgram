@@ -1,0 +1,1622 @@
+<Window x:Class="OtoProgram.UzakKurulumWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:OtoProgram"
+        Title="Toplu Dağıtım Merkezi" Height="820" Width="1350" MinHeight="720" MinWidth="1100"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent" ResizeMode="CanResize"
+        MouseDown="Window_MouseDown">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" CornerRadius="0" GlassFrameThickness="0"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+    </Window.Resources>
+
+    <Border Background="#F3F4F6" CornerRadius="15" BorderThickness="1" BorderBrush="#E5E7EB">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,15">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <TextBlock Text="📡" FontSize="24" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Toplu Dağıtım Merkezi" FontSize="20" FontWeight="Bold" Foreground="#1E293B"/>
+                        <TextBlock Text="Gelişmiş Tarama &amp; Yönetim Paneli" FontSize="12" Foreground="#64748B"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                    <ToggleButton x:Name="btnModDegistir" Click="btnModDegistir_Click" Width="160" Height="35" Margin="0,0,10,0"
+                                  Background="White" BorderBrush="#CBD5E1" BorderThickness="1" Cursor="Hand">
+                        <ToggleButton.Template>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border x:Name="brd" Background="{TemplateBinding Background}" CornerRadius="6" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock x:Name="txtModIcon" Text="📥" Margin="0,0,8,0" VerticalAlignment="Center" FontSize="14"/>
+                                        <TextBlock x:Name="txtModYazi" Text="Mod: KURULUM" FontWeight="Bold" VerticalAlignment="Center" Foreground="#0F172A"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="brd" Property="Background" Value="#FEF2F2"/>
+                                        <Setter TargetName="brd" Property="BorderBrush" Value="#EF4444"/>
+                                        <Setter TargetName="txtModYazi" Property="Foreground" Value="#DC2626"/>
+                                        <Setter TargetName="txtModYazi" Property="Text" Value="Mod: KALDIRMA"/>
+                                        <Setter TargetName="txtModIcon" Property="Text" Value="🗑️"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </ToggleButton.Template>
+                    </ToggleButton>
+
+                    <Button Content="✕" Click="BtnKapat_Click" 
+                            Background="#EF4444" Foreground="White" Width="35" Height="35" 
+                            FontSize="16" BorderThickness="0" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="380" MinWidth="300"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="White" CornerRadius="10" Padding="15">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.1" BlurRadius="10"/>
+                    </Border.Effect>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Tek IP, IP aralığı veya bilgisayar adı girin (virgülle ayırarak çoklu yazabilirsiniz)." 
+                                   FontSize="11" Foreground="#64748B" Margin="0,0,0,10" TextWrapping="Wrap"/>
+
+                        <Grid Grid.Row="1" Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="txtSmartSearch" Text="10.235.80.1-100" VerticalContentAlignment="Center" Padding="8,5" Height="35"
+                                     FontSize="12" BorderBrush="#CBD5E1" ToolTip="Örn: 10.235.80.5 veya 10.235.80.1-50 veya 10.235.80.*, 10.235.90.1-20 veya BILGIISLEM-PC"/>
+                            <Button Grid.Column="1" x:Name="btnSmartTara" Click="btnSmartTara_Click" Content="🔍 Tara / Bul" Margin="8,0,0,0" Width="100" Height="35"
+                                    Background="#3B82F6" Foreground="White" BorderThickness="0" FontWeight="Bold" Cursor="Hand">
+                                <Button.Resources>
+                                    <Style TargetType="Border"><Setter Property="CornerRadius" Value="5"/></Style>
+                                </Button.Resources>
+                            </Button>
+                        </Grid>
+
+                        <Grid Grid.Row="2" Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnTemizle" Click="btnTemizle_Click" Content="🗑️ Temizle" 
+                                    FontSize="12" Padding="10,4" HorizontalAlignment="Left"
+                                    Background="#FFF1F2" Foreground="#E11D48" BorderBrush="#FECDD3" BorderThickness="1">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="4"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button x:Name="btnTumuSec" Content="Tümünü Seç" Click="btnTumuSec_Click" 
+                                        FontSize="12" Padding="10,4" Margin="0,0,5,0" Width="100"
+                                        Background="#F1F5F9" BorderBrush="#CBD5E1" BorderThickness="1"/>
+                                <Button Content="Ters Çevir" Click="btnTersCevir_Click" 
+                                        FontSize="12" Padding="10,4" 
+                                        Background="#F1F5F9" BorderBrush="#CBD5E1" BorderThickness="1"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <DataGrid Grid.Row="3" x:Name="gridPcs" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                  HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="🔄 Yeniden Başlat" Click="MenuRestart_Click"/>
+                                    <MenuItem Header="🛑 Kapat" Click="MenuShutdown_Click"/>
+                                    <Separator/>
+                                    <MenuItem Header="🖨️ Yazıcı Servisini Resetle" Click="MenuSpooler_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" Header="Seç" Width="40"/>
+                                <DataGridTextColumn Binding="{Binding IP}" Header="IP Adresi" Width="110" IsReadOnly="True" FontWeight="Medium"/>
+                                <DataGridTextColumn Binding="{Binding Hostname}" Header="Bilgisayar Adı" Width="*" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding Durum}" Header="Durum" Width="70" IsReadOnly="True">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Durum}" Value="Açık">
+                                                    <Setter Property="Foreground" Value="#10B981"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <!-- Toplu Rapor Butonu -->
+                        <Button Grid.Row="4" x:Name="btnRaporla" Click="BtnRaporla_Click" Height="40" Margin="0,8,0,0"
+                                Background="#8B5CF6" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                            <Button.Resources>
+                                <Style TargetType="Border"><Setter Property="CornerRadius" Value="7"/></Style>
+                            </Button.Resources>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="📊" FontSize="15" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="SEÇİLİ PC'LERİ RAPORLA (CSV)" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="160"/>
+                    </Grid.RowDefinitions>
+
+                    <TabControl Grid.Row="0" Margin="0,0,0,15" BorderThickness="0" Background="Transparent">
+                        <TabControl.Resources>
+                            <Style TargetType="TabItem">
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Padding" Value="15,10"/>
+                                <Setter Property="Margin" Value="0,0,5,0"/>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TabItem">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}" CornerRadius="8,8,0,0" Margin="0,0,2,0" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="#3B82F6"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="False">
+                                                    <Setter TargetName="Border" Property="Background" Value="#E2E8F0"/>
+                                                    <Setter Property="Foreground" Value="#64748B"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TabControl.Resources>
+
+                        <TabItem Header="📦 Yazılım Dağıtım">
+                            <Border Background="White" CornerRadius="0,8,8,8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Yüklenecek/Kaldırılacak Paketler" FontWeight="Bold" Foreground="#475569" Margin="0,0,0,10"/>
+
+                                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl x:Name="itemsKategoriler">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Expander IsExpanded="True" Margin="0,0,0,8" BorderBrush="#E2E8F0" BorderThickness="1" Background="#F8F9FB">
+                                                        <Expander.Header>
+                                                            <StackPanel Orientation="Horizontal" Height="30">
+                                                                <TextBlock Text="📁" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                                                <TextBlock Text="{Binding CategoryName}" FontWeight="SemiBold" FontSize="14" Foreground="#334155" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="(Tıkla Aç/Kapa)" FontSize="10" Foreground="Gray" VerticalAlignment="Center" Margin="10,0,0,0" FontStyle="Italic"/>
+                                                            </StackPanel>
+                                                        </Expander.Header>
+                                                        <StackPanel Background="White" Margin="10,5,0,5">
+                                                            <CheckBox IsChecked="{Binding IsSelected}" Content="Tüm Kategoriyi Seç" Margin="5,5,0,5" FontWeight="Bold" Foreground="#64748B"/>
+                                                            <ItemsControl ItemsSource="{Binding Apps}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Border Background="White" CornerRadius="5" Margin="20,2,5,2" Padding="8" BorderThickness="0,0,0,1" BorderBrush="#F1F5F9">
+                                                                            <Grid>
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="Auto"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                                                                <TextBlock Grid.Column="1" Text="{Binding FileName}" FontSize="13" Foreground="#475569"/>
+                                                                            </Grid>
+                                                                        </Border>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </StackPanel>
+                                                    </Expander>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+
+                                    <Button Grid.Row="2" x:Name="btnBaslat" Click="btnBaslat_Click" Content="🚀 İŞLEMİ BAŞLAT" Height="50" Margin="0,15,0,0"
+                                            Background="#10B981" Foreground="White" FontSize="16" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="brd" Background="{TemplateBinding Background}" CornerRadius="10">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="brd" Property="Opacity" Value="0.9"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter TargetName="brd" Property="Background" Value="#94A3B8"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="🛠️ Sistem &amp; Güvenlik">
+                            <Border Background="White" CornerRadius="0,8,8,8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!-- Sol Kolon: Firewall -->
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="🛡️ Güvenlik Duvarı (Firewall)" FontWeight="Bold" Foreground="#475569" Margin="0,0,0,8"/>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Button x:Name="btnFirewallOff" Click="btnFirewallOff_Click" Content="KAPAT (Turn Off)" Margin="0,0,5,0" Height="40" Background="#FEF2F2" BorderBrush="#FECDD3" BorderThickness="1" Foreground="#DC2626">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="5"/>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+                                                <Button x:Name="btnFirewallOn" Click="btnFirewallOn_Click" Grid.Column="1" Content="AÇ (Turn On)" Margin="5,0,0,0" Height="40" Background="#ECFDF5" BorderBrush="#A7F3D0" BorderThickness="1" Foreground="#059669">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="5"/>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+                                            </Grid>
+                                        </StackPanel>
+
+                                        <!-- Sağ Kolon: Telemetry -->
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="📊 Windows İzleme (Telemetry)" FontWeight="Bold" Foreground="#475569" Margin="0,0,0,8"/>
+                                            <Button x:Name="btnDisableTelemetry" Click="btnDisableTelemetry_Click" Content="🚫 TELEMETRİ &amp; İZLEMEYİ KAPAT" Height="40" Background="#FFFBEB" BorderBrush="#FDE68A" BorderThickness="1" Foreground="#D97706" FontWeight="SemiBold">
+                                                <Button.Resources>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="CornerRadius" Value="5"/>
+                                                    </Style>
+                                                </Button.Resources>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                                        <TextBlock Text="👤 Bilgisayardaki Kullanıcılar" FontWeight="Bold" Foreground="#475569" VerticalAlignment="Center"/>
+                                        <Button x:Name="btnKullanicilariGetir" Click="btnKullanicilariGetir_Click" Content="🔍 Listeyi Getir" Margin="15,0,0,0" Padding="10,4" FontSize="11" Background="#F1F5F9" BorderBrush="#CBD5E1" BorderThickness="1"/>
+                                        <TextBlock Text="(Soldan bir PC seçiniz)" FontSize="10" FontStyle="Italic" Foreground="Gray" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    </StackPanel>
+
+                                    <DataGrid Grid.Row="2" x:Name="gridRemoteUsers" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                              HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                              GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Username}" Header="Kullanıcı Adı" Width="*" IsReadOnly="True" FontWeight="Medium"/>
+                                            <DataGridTextColumn Binding="{Binding Status}" Header="Durum" Width="100" IsReadOnly="True"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+                                    <Grid Grid.Row="3" Margin="0,15,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnMakeAdmin" Click="btnMakeAdmin_Click" Content="👑 Local Admin YAP" Margin="0,0,5,0" Height="45" Background="#DBEAFE" Foreground="#1E40AF" FontWeight="Bold" BorderThickness="0">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="6"/>
+                                                </Style>
+                                            </Button.Resources>
+                                        </Button>
+                                        <Button x:Name="btnRemoveAdmin" Click="btnRemoveAdmin_Click" Grid.Column="1" Content="❌ Yetkiyi AL" Margin="5,0,0,0" Height="45" Background="#F1F5F9" Foreground="#64748B" BorderThickness="0">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                                </Style>
+                                            </Button.Resources>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="👤 AD &amp; Şifre">
+                            <Border Background="White" CornerRadius="0,8,8,8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="380" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- SOL TARAF: Arama ve Liste -->
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Border Grid.Row="0" Margin="0,0,0,10" Padding="10" Background="#F8FAFC" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBox x:Name="txtADSearch" Height="35" VerticalContentAlignment="Center" Padding="5" 
+                                                         FontSize="14" BorderBrush="#CBD5E1" 
+                                                         Tag="Ad Soyad veya Kullanıcı Adı..." Text="Ad Soyad veya Kullanıcı Adı..." 
+                                                         Foreground="Gray" GotFocus="TxtADSearch_GotFocus" LostFocus="TxtADSearch_LostFocus"
+                                                         KeyDown="txtADSearch_KeyDown"/>
+
+                                                <Button x:Name="btnADSearch" Grid.Column="1" Click="btnADSearch_Click" Content="🔍 ARA" Width="80" Margin="10,0,0,0"
+                                                        Background="#3B82F6" Foreground="White" FontWeight="Bold" BorderThickness="0">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="5"/>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+
+                                        <DataGrid Grid.Row="1" x:Name="gridAdUsers" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                  Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9" SelectionMode="Single"
+                                                  SelectionChanged="gridAdUsers_SelectionChanged">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Binding="{Binding DisplayName}" Header="Ad Soyad" Width="*" IsReadOnly="True" FontWeight="Bold"/>
+                                                <DataGridTextColumn Binding="{Binding SamAccountName}" Header="Kullanıcı Adı" Width="110" IsReadOnly="True"/>
+                                                <DataGridTextColumn Binding="{Binding Durum}" Header="Durum" Width="70" IsReadOnly="True">
+                                                    <DataGridTextColumn.ElementStyle>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Durum}" Value="KİLİTLİ">
+                                                                    <Setter Property="Foreground" Value="Red"/>
+                                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Durum}" Value="Aktif">
+                                                                    <Setter Property="Foreground" Value="Green"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Durum}" Value="Pasif">
+                                                                    <Setter Property="Foreground" Value="Gray"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </DataGridTextColumn.ElementStyle>
+                                                </DataGridTextColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Grid>
+
+                                    <!-- SAĞ TARAF: Kullanıcı Detay Kartı ve İşlemleri -->
+                                    <Border Grid.Column="2" Background="#F8FAFC" CornerRadius="8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                                        <Grid>
+                                            <!-- Seçim Yoksa Gösterilecek Uyarı -->
+                                            <TextBlock x:Name="lblNoUserSelected" Text="Detayları görüntülemek ve işlem yapmak için lütfen soldaki listeden bir kullanıcı seçiniz." 
+                                                       Foreground="Gray" FontSize="13" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
+
+                                            <!-- Yükleniyor Göstergesi -->
+                                            <TextBlock x:Name="lblLoadingDetails" Text="Detaylar yükleniyor..." Visibility="Collapsed"
+                                                       Foreground="#3B82F6" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                            <!-- Detay ve İşlem Paneli -->
+                                            <Grid x:Name="pnlUserDetails" Visibility="Collapsed">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/> <!-- Başlık / İsim -->
+                                                    <RowDefinition Height="*"/>    <!-- Bilgiler (Scrollable) -->
+                                                    <RowDefinition Height="Auto"/> <!-- Aksiyonlar -->
+                                                </Grid.RowDefinitions>
+
+                                                <!-- Kullanıcı Başlığı -->
+                                                <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                                                    <TextBlock x:Name="lblAdDisplayName" Text="-" FontSize="16" FontWeight="Bold" Foreground="#1E293B" TextWrapping="Wrap"/>
+                                                    <TextBlock x:Name="lblAdUsername" Text="@username" FontSize="12" Foreground="Gray" Margin="0,2,0,5"/>
+                                                    <Separator Background="#E2E8F0"/>
+                                                </StackPanel>
+
+                                                <!-- Bilgi Listesi -->
+                                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
+                                                    <StackPanel>
+                                                        <Grid Margin="0,3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="Hesap Durumu:" Foreground="#64748B" FontSize="11"/>
+                                                            <TextBlock x:Name="lblAdStatus" Grid.Column="1" Text="-" FontWeight="Bold" FontSize="12"/>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="Departman / Birim:" Foreground="#64748B" FontSize="11"/>
+                                                            <TextBlock x:Name="lblAdDept" Grid.Column="1" Text="-" FontSize="12" Foreground="#1E293B" TextWrapping="Wrap"/>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="E-Posta:" Foreground="#64748B" FontSize="11"/>
+                                                            <TextBlock x:Name="lblAdEmail" Grid.Column="1" Text="-" FontSize="12" Foreground="#1E293B" TextWrapping="Wrap"/>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="Telefon:" Foreground="#64748B" FontSize="11"/>
+                                                            <TextBlock x:Name="lblAdPhone" Grid.Column="1" Text="-" FontSize="12" Foreground="#1E293B"/>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="OU Grubu:" Foreground="#64748B" FontSize="11"/>
+                                                            <TextBlock x:Name="lblAdOU" Grid.Column="1" Text="-" FontSize="11" Foreground="#1E293B" TextWrapping="Wrap"/>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="Oluşturulma Tarihi:" Foreground="#64748B" FontSize="11"/>
+                                                            <TextBlock x:Name="lblAdCreated" Grid.Column="1" Text="-" FontSize="12" Foreground="#1E293B"/>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="Son Giriş Zamanı:" Foreground="#64748B" FontSize="11"/>
+                                                            <TextBlock x:Name="lblAdLastLogon" Grid.Column="1" Text="-" FontSize="12" Foreground="#1E293B"/>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="Şifre Son Değişim:" Foreground="#64748B" FontSize="11"/>
+                                                            <TextBlock x:Name="lblAdPassLastSet" Grid.Column="1" Text="-" FontSize="12" Foreground="#1E293B"/>
+                                                        </Grid>
+
+                                                        <Separator Margin="0,10" Background="#E2E8F0"/>
+
+                                                        <!-- Politika Kutuları -->
+                                                        <CheckBox x:Name="chkNeverExpires" Content="Şifre Süresi Hiç Dolmasın" Click="chkNeverExpires_Click" Margin="0,2,0,5" Foreground="#475569" FontSize="11" FontWeight="Medium"/>
+                                                        <CheckBox x:Name="chkZorunlu" Content="İlk girişte şifre değiştirsin" IsChecked="False" Margin="0,2,0,5" Foreground="#475569" FontSize="11"/>
+                                                    </StackPanel>
+                                                </ScrollViewer>
+
+                                                <!-- Aksiyon Butonları -->
+                                                <Border Grid.Row="2" Background="#F1F5F9" Margin="0,5,0,0" Padding="8" CornerRadius="8">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Hesap İşlemleri" FontWeight="Bold" Foreground="#475569" FontSize="11" Margin="0,0,0,8"/>
+                                                        
+                                                        <Grid Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="5"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="5"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            
+                                                            <Button x:Name="btnEnableAccount" Click="btnEnableAccount_Click" Content="✅ Aktif Et" Grid.Column="0" Height="28" FontSize="11" Background="#ECFDF5" Foreground="#059669" BorderBrush="#A7F3D0" BorderThickness="1" FontWeight="SemiBold">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="CornerRadius" Value="4"/>
+                                                                    </Style>
+                                                                </Button.Resources>
+                                                            </Button>
+
+                                                            <Button x:Name="btnDisableAccount" Click="btnDisableAccount_Click" Content="❌ Kapat" Grid.Column="2" Height="28" FontSize="11" Background="#FEF2F2" Foreground="#DC2626" BorderBrush="#FECDD3" BorderThickness="1" FontWeight="SemiBold">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="CornerRadius" Value="4"/>
+                                                                    </Style>
+                                                                </Button.Resources>
+                                                            </Button>
+
+                                                            <Button x:Name="btnADUnlock" Click="btnADUnlock_Click" Content="🔓 Kilit Aç" Grid.Column="4" Height="28" FontSize="11" Background="#EFF6FF" Foreground="#2563EB" BorderBrush="#BFDBFE" BorderThickness="1" FontWeight="SemiBold">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="CornerRadius" Value="4"/>
+                                                                    </Style>
+                                                                </Button.Resources>
+                                                            </Button>
+                                                        </Grid>
+
+                                                        <Button x:Name="btnResetStandard" Click="btnResetStandard_Click" Height="32" Margin="0,0,0,8" 
+                                                                Background="#4F46E5" Foreground="White" BorderThickness="0" FontWeight="Bold" Content="⚡ Standart Şifre Ata">
+                                                            <Button.Resources>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="CornerRadius" Value="5"/>
+                                                                </Style>
+                                                            </Button.Resources>
+                                                        </Button>
+
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBox x:Name="txtNewPass" Height="30" VerticalContentAlignment="Center" Padding="5" Text="YeniSifre123." BorderBrush="#CBD5E1"/>
+                                                            <Button x:Name="btnResetCustom" Click="btnResetCustom_Click" Grid.Column="1" Content="Özel Şifre" Width="80" Margin="5,0,0,0" Background="#F59E0B" Foreground="White" FontWeight="Bold">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="CornerRadius" Value="4"/>
+                                                                    </Style>
+                                                                </Button.Resources>
+                                                            </Button>
+                                                        </Grid>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="🖥️ Uzak Analiz &amp; Süreçler">
+                            <Border Background="White" CornerRadius="0,8,8,8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="300" MinWidth="260"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- SOL PANEL: Donanım Bilgisi -->
+                                    <Border Grid.Column="0" Background="#F8FAFC" CornerRadius="8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                                                <TextBlock Text="🖥️ Uzak Donanım Bilgisi" FontWeight="Bold" Foreground="#1E293B" FontSize="15" Margin="0,0,0,5"/>
+                                                <TextBlock Text="Seçili PC'nin sistem bileşenleri sorgulanır." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                            </StackPanel>
+
+                                            <Button Grid.Row="1" x:Name="btnGetSystemInfo" Click="btnGetSystemInfo_Click" Content="🔍 Sistem Bilgisi Sorgula" Height="35"
+                                                    Background="#3B82F6" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Margin="0,0,0,15">
+                                                <Button.Resources>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="CornerRadius" Value="6"/>
+                                                    </Style>
+                                                </Button.Resources>
+                                            </Button>
+
+                                            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                                <StackPanel Margin="0,0,8,0">
+                                                    <TextBlock Text="İşletim Sistemi" FontSize="11" Foreground="#64748B" Margin="0,0,0,2"/>
+                                                    <TextBlock x:Name="lblSysOS" Text="-" FontWeight="SemiBold" FontSize="12" Foreground="#1E293B" Margin="0,0,0,8" TextWrapping="Wrap"/>
+
+                                                    <TextBlock Text="İşlemci (CPU)" FontSize="11" Foreground="#64748B" Margin="0,0,0,2"/>
+                                                    <TextBlock x:Name="lblSysCPU" Text="-" FontWeight="SemiBold" FontSize="12" Foreground="#1E293B" Margin="0,0,0,8" TextWrapping="Wrap"/>
+
+                                                    <TextBlock Text="Toplam Bellek (RAM)" FontSize="11" Foreground="#64748B" Margin="0,0,0,2"/>
+                                                    <TextBlock x:Name="lblSysRAM" Text="-" FontWeight="SemiBold" FontSize="12" Foreground="#1E293B" Margin="0,0,0,8"/>
+
+                                                    <TextBlock Text="Çalışma Süresi (Uptime)" FontSize="11" Foreground="#64748B" Margin="0,0,0,2"/>
+                                                    <TextBlock x:Name="lblSysUptime" Text="-" FontWeight="SemiBold" FontSize="12" Foreground="#1E293B" Margin="0,0,0,2"/>
+                                                    <TextBlock x:Name="lblSysLastBoot" Text="-" FontSize="10" FontStyle="Italic" Foreground="Gray" Margin="0,0,0,8"/>
+
+                                                    <TextBlock Text="Disk Durumu (C:)" FontSize="11" Foreground="#64748B" Margin="0,0,0,2"/>
+                                                    <TextBlock x:Name="lblSysDisk" Text="-" FontWeight="SemiBold" FontSize="12" Foreground="#1E293B" Margin="0,0,0,4"/>
+                                                    <ProgressBar x:Name="barSysDisk" Height="8" Minimum="0" Maximum="100" Value="0" Background="#E2E8F0" Foreground="#3B82F6" Margin="0,0,0,4">
+                                                        <ProgressBar.Template>
+                                                            <ControlTemplate TargetType="ProgressBar">
+                                                                <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                                                                    <Grid>
+                                                                        <Border x:Name="PART_Indicator" Background="{TemplateBinding Foreground}" CornerRadius="4" HorizontalAlignment="Left"/>
+                                                                    </Grid>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </ProgressBar.Template>
+                                                    </ProgressBar>
+                                                    <Grid Margin="0,0,0,8">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock x:Name="lblSysDiskPct" Text="Doluluk: %0" FontSize="10" Foreground="#64748B" VerticalAlignment="Center"/>
+                                                        <Button Grid.Column="1" x:Name="btnDiskCleanup" Click="btnDiskCleanup_Click" Content="🧹 Temizle" Padding="8,3" FontSize="10"
+                                                                Background="#FFF1F2" Foreground="#E11D48" BorderBrush="#FECDD3" BorderThickness="1" Cursor="Hand">
+                                                            <Button.Resources>
+                                                                <Style TargetType="Border"><Setter Property="CornerRadius" Value="3"/></Style>
+                                                            </Button.Resources>
+                                                        </Button>
+                                                    </Grid>
+                                                    <TextBlock Text="Fiziksel Disk &amp; S.M.A.R.T" FontSize="11" Foreground="#64748B" Margin="0,0,0,2"/>
+                                                    <TextBlock x:Name="lblSysDiskHealth" Text="-" FontWeight="SemiBold" FontSize="11" Foreground="#1E293B" Margin="0,0,0,0" TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- SAĞ PANEL: TabControl ile Tüm Analizler -->
+                                    <Grid Grid.Column="2">
+                                        <TabControl BorderThickness="0" Background="Transparent">
+                                            <TabControl.Resources>
+                                                <Style TargetType="TabItem">
+                                                    <Setter Property="FontSize" Value="12"/>
+                                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                                    <Setter Property="Padding" Value="12,8"/>
+                                                    <Setter Property="Margin" Value="0,0,3,0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="TabItem">
+                                                                <Border x:Name="Border" Background="{TemplateBinding Background}" CornerRadius="8,8,0,0" Margin="0,0,2,0" Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header"/>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsSelected" Value="True">
+                                                                        <Setter TargetName="Border" Property="Background" Value="#10B981"/>
+                                                                        <Setter Property="Foreground" Value="White"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsSelected" Value="False">
+                                                                        <Setter TargetName="Border" Property="Background" Value="#E2E8F0"/>
+                                                                        <Setter Property="Foreground" Value="#64748B"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </TabControl.Resources>
+
+                                            <!-- Tab 1: Süreç Yöneticisi -->
+                                            <TabItem Header="🚫 Süreç Yöneticisi">
+                                                <Border Background="White" CornerRadius="0,8,8,8" Padding="12" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Grid.Column="0">
+                                                                <TextBlock Text="🚫 Uzak Görev Yöneticisi" FontWeight="Bold" Foreground="#1E293B" FontSize="14"/>
+                                                                <TextBlock Text="Uzak bilgisayardaki çalışan süreçleri listeler." FontSize="11" Foreground="Gray" FontStyle="Italic" TextWrapping="Wrap"/>
+                                                            </StackPanel>
+                                                            <Button Grid.Column="1" x:Name="btnGetProcesses" Click="btnGetProcesses_Click" Content="🔄 Süreçleri Getir" Width="140" Height="35" VerticalAlignment="Center" Margin="10,0,0,0"
+                                                                    Background="#10B981" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border"><Setter Property="CornerRadius" Value="5"/></Style>
+                                                                </Button.Resources>
+                                                            </Button>
+                                                        </Grid>
+                                                        <DataGrid Grid.Row="1" x:Name="gridProcesses" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                                  HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Binding="{Binding Name}" Header="Süreç Adı" Width="*" IsReadOnly="True" FontWeight="Bold"/>
+                                                                <DataGridTextColumn Binding="{Binding Id}" Header="PID" Width="80" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding MemoryUsage}" Header="Bellek" Width="100" IsReadOnly="True"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <!-- Hızlı Görev Sonlandırma Alanı (Grid.Row=2) -->
+                                                        <Border Grid.Row="2" Margin="0,8,0,0" Padding="10" Background="#FEF2F2" CornerRadius="8" BorderBrush="#FEE2E2" BorderThickness="1">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="10"/>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="10"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Grid.Column="0" Text="Hızlı Sonlandır:" VerticalAlignment="Center" FontWeight="Bold" Foreground="#991B1B"/>
+                                                                <TextBox Grid.Column="2" x:Name="txtKillProcessName" Height="30" VerticalContentAlignment="Center" Padding="5" 
+                                                                         BorderBrush="#FCA5A5" BorderThickness="1" Tag="Süreç adını girin (Örn: chrome.exe veya hbys.exe)..." 
+                                                                         Text="Süreç adını girin (Örn: chrome.exe veya hbys.exe)..." Foreground="Gray" GotFocus="TxtKillProcessName_GotFocus" LostFocus="TxtKillProcessName_LostFocus"/>
+                                                                 
+                                                                <Button Grid.Column="4" x:Name="btnKillProcess" Click="btnKillProcess_Click" Content="🛑 SÜRECİ SONLANDIR" Padding="15,0" Height="30"
+                                                                        Background="#EF4444" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                    <Button.Resources>
+                                                                        <Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style>
+                                                                    </Button.Resources>
+                                                                </Button>
+                                                            </Grid>
+                                                        </Border>
+                                                    </Grid>
+                                                </Border>
+                                            </TabItem>
+
+                                            <!-- Tab 2: Aktif Oturumlar -->
+                                            <TabItem Header="👥 Aktif Oturumlar">
+                                                <Border Background="White" CornerRadius="0,8,8,8" Padding="12" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Grid.Column="0">
+                                                                <TextBlock Text="👥 Aktif Oturum Yöneticisi" FontWeight="Bold" Foreground="#1E293B" FontSize="14"/>
+                                                                <TextBlock Text="Seçili bilgisayardaki aktif ve pasif oturumları listeler ve yönetir." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
+                                                                <Button x:Name="btnGetActiveSessions" Click="btnGetActiveSessions_Click" Content="🔄 Oturumları Getir" Width="150" Height="35"
+                                                                        Background="#0D9488" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                    <Button.Resources>
+                                                                        <Style TargetType="Border"><Setter Property="CornerRadius" Value="5"/></Style>
+                                                                    </Button.Resources>
+                                                                </Button>
+                                                                <Button x:Name="btnShadowSession" Click="btnShadowSession_Click" Content="🖥️ Ekran İzle (Shadow)" Width="170" Height="35" Margin="8,0,0,0"
+                                                                        Background="#3B82F6" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                    <Button.Resources>
+                                                                        <Style TargetType="Border"><Setter Property="CornerRadius" Value="5"/></Style>
+                                                                    </Button.Resources>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                        
+                                                        <DataGrid Grid.Row="1" x:Name="gridActiveSessions" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                                  HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9" FontSize="11">
+                                                            <DataGrid.ContextMenu>
+                                                                <ContextMenu>
+                                                                    <MenuItem Header="🖥️ Oturuma Bağlan (RDP Shadow)" Click="MenuShadowSession_Click"/>
+                                                                    <MenuItem Header="❌ Oturumu Sonlandır (Logoff)" Click="MenuLogoffSession_Click"/>
+                                                                </ContextMenu>
+                                                            </DataGrid.ContextMenu>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Binding="{Binding Username}" Header="Kullanıcı" Width="*" IsReadOnly="True" FontWeight="Bold"/>
+                                                                <DataGridTextColumn Binding="{Binding SessionName}" Header="Oturum" Width="100" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding SessionId}" Header="ID" Width="50" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding State}" Header="Durum" Width="100" IsReadOnly="True"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </Border>
+                                            </TabItem>
+
+                                            <!-- Tab 3: Paylaşılan Klasörler -->
+                                            <TabItem Header="📂 Paylaşılan Klasörler">
+                                                <Border Background="White" CornerRadius="0,8,8,8" Padding="12" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Grid.Column="0">
+                                                                <TextBlock Text="📂 Ağ Paylaşım Yönetimi" FontWeight="Bold" Foreground="#1E293B" FontSize="14"/>
+                                                                <TextBlock Text="Uzak PC'deki ağ paylaşımlarını WMI ile listeler." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                                            </StackPanel>
+                                                            <Button Grid.Column="1" x:Name="btnGetShares" Click="btnGetShares_Click" Content="🔄 Paylaşımları Getir" Width="155" Height="35" VerticalAlignment="Center" Margin="10,0,0,0"
+                                                                    Background="#6366F1" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border"><Setter Property="CornerRadius" Value="5"/></Style>
+                                                                </Button.Resources>
+                                                            </Button>
+                                                        </Grid>
+                                                        <DataGrid Grid.Row="1" x:Name="gridShares" AutoGenerateColumns="False" CanUserAddRows="False"
+                                                                  HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9">
+                                                            <DataGrid.ContextMenu>
+                                                                <ContextMenu>
+                                                                    <MenuItem Header="📂 UNC Yoluyla Aç" Click="MenuOpenShare_Click"/>
+                                                                    <MenuItem Header="📋 UNC Yolunu Kopyala" Click="MenuCopyShareUNC_Click"/>
+                                                                </ContextMenu>
+                                                            </DataGrid.ContextMenu>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Binding="{Binding Name}" Header="Paylaşım Adı" Width="*" IsReadOnly="True" FontWeight="Bold"/>
+                                                                <DataGridTextColumn Binding="{Binding Path}" Header="Gerçek Yol" Width="2*" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding ShareType}" Header="Tür" Width="65" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding Description}" Header="Açıklama" Width="100" IsReadOnly="True"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </Border>
+                                            </TabItem>
+
+                                            <!-- Tab 3: Servis Yöneticisi -->
+                                            <TabItem Header="🔧 Servis Yöneticisi">
+                                                <Border Background="White" CornerRadius="0,8,8,8" Padding="12" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        
+                                                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Grid.Column="0">
+                                                                <TextBlock Text="🔧 Uzak Servis Yöneticisi" FontWeight="Bold" Foreground="#1E293B" FontSize="14"/>
+                                                                <TextBlock Text="Uzak bilgisayardaki Windows servislerini WMI ile yönetir." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                                            </StackPanel>
+                                                            <Button Grid.Column="1" x:Name="btnGetServices" Click="btnGetServices_Click" Content="🔄 Servisleri Getir" Width="140" Height="35" VerticalAlignment="Center" Margin="10,0,0,0"
+                                                                    Background="#8B5CF6" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border"><Setter Property="CornerRadius" Value="5"/></Style>
+                                                                </Button.Resources>
+                                                            </Button>
+                                                        </Grid>
+                                                        
+                                                        <Grid Grid.Row="1" Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="10"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="120"/>
+                                                                <ColumnDefinition Width="10"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            
+                                                            <TextBlock Grid.Column="0" Text="Filtre: " VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#475569"/>
+                                                            <TextBox Grid.Column="1" x:Name="txtServiceFilter" Height="28" VerticalContentAlignment="Center" Padding="3" TextChanged="txtServiceFilter_TextChanged" BorderBrush="#CBD5E1"/>
+                                                            
+                                                            <TextBlock Grid.Column="3" Text="Durum: " VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#475569"/>
+                                                            <ComboBox Grid.Column="4" x:Name="cmbServiceStatusFilter" Height="28" VerticalContentAlignment="Center" SelectionChanged="cmbServiceStatusFilter_SelectionChanged">
+                                                                <ComboBoxItem Content="Tümü"/>
+                                                                <ComboBoxItem Content="Çalışıyor"/>
+                                                                <ComboBoxItem Content="Durdurulmuş"/>
+                                                            </ComboBox>
+                                                            
+                                                            <StackPanel Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Right">
+                                                                <Button Content="⚡ Pratik Servisler" Click="BtnQuickServicePicker_Click" Margin="2,0" Padding="8,3" FontSize="11.5"
+                                                                        Background="#6366F1" Foreground="White" BorderThickness="0" FontWeight="Bold" Cursor="Hand">
+                                                                    <Button.Resources>
+                                                                        <Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style>
+                                                                    </Button.Resources>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                        
+                                                        <DataGrid Grid.Row="2" x:Name="gridServices" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                                  HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9" SelectionMode="Single">
+                                                            <DataGrid.ContextMenu>
+                                                                <ContextMenu>
+                                                                    <MenuItem Header="▶ Başlat" Click="MenuStartService_Click"/>
+                                                                    <MenuItem Header="⏹ Durdur" Click="MenuStopService_Click"/>
+                                                                    <MenuItem Header="🔄 Yeniden Başlat" Click="MenuRestartService_Click"/>
+                                                                    <Separator/>
+                                                                    <MenuItem Header="⚙️ Başlangıç: Otomatik" Click="MenuSetStartType_Click" Tag="Automatic"/>
+                                                                    <MenuItem Header="⚙️ Başlangıç: Elle (Manuel)" Click="MenuSetStartType_Click" Tag="Manual"/>
+                                                                    <MenuItem Header="⚙️ Başlangıç: Devre Dışı" Click="MenuSetStartType_Click" Tag="Disabled"/>
+                                                                </ContextMenu>
+                                                            </DataGrid.ContextMenu>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Binding="{Binding DisplayName}" Header="Görünen Ad" Width="2*" IsReadOnly="True" FontWeight="Bold"/>
+                                                                <DataGridTextColumn Binding="{Binding Name}" Header="Hizmet Adı" Width="*" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding State}" Header="Durum" Width="80" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding StartMode}" Header="Başlangıç Türü" Width="90" IsReadOnly="True"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        
+                                                        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,8,0,0">
+                                                            <Button x:Name="btnStartService" Click="btnStartService_Click" Content="▶ Başlat" Padding="15,6" Background="#10B981" Foreground="White" FontWeight="Bold" BorderThickness="0" Margin="0,0,8,0" Cursor="Hand">
+                                                                <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style></Button.Resources>
+                                                            </Button>
+                                                            <Button x:Name="btnStopService" Click="btnStopService_Click" Content="⏹ Durdur" Padding="15,6" Background="#EF4444" Foreground="White" FontWeight="Bold" BorderThickness="0" Margin="0,0,8,0" Cursor="Hand">
+                                                                <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style></Button.Resources>
+                                                            </Button>
+                                                            <Button x:Name="btnRestartService" Click="btnRestartService_Click" Content="🔄 Yeniden Başlat" Padding="15,6" Background="#F59E0B" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style></Button.Resources>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </TabItem>
+
+                                            <!-- Tab 4: Uzak Terminal -->
+                                            <TabItem Header="💻 Uzak Terminal">
+                                                <Border Background="White" CornerRadius="0,8,8,8" Padding="12" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        
+                                                        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                                                            <TextBlock Text="💻 Uzak Komut Çalıştırıcı &amp; Terminal" FontWeight="Bold" Foreground="#1E293B" FontSize="14"/>
+                                                            <TextBlock Text="Uzak bilgisayarda CMD veya PowerShell komutları çalıştırın. Çift tıklayarak detaylı arayüzü açabilirsiniz." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                                        </StackPanel>
+                                                        
+                                                        <!-- Makro Alanı -->
+                                                        <GroupBox Grid.Row="1" Header="⚡ Hızlı Makro Şablonları" Margin="0,0,0,10" Padding="10" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                            <WrapPanel x:Name="pnlMacros" Orientation="Horizontal" VerticalAlignment="Center"/>
+                                                        </GroupBox>
+                                                        
+                                                        <!-- Komut Giriş Alanı -->
+                                                        <Border Grid.Row="2" Padding="10" Background="#F8FAFC" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1" Margin="0,0,0,10">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="10"/>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="10"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="10"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <TextBlock Grid.Column="0" Text="Uzak Komut:" VerticalAlignment="Center" FontWeight="Bold" Foreground="#475569"/>
+                                                                
+                                                                <TextBox Grid.Column="2" x:Name="txtRemoteCmd" Height="30" VerticalContentAlignment="Center" Padding="5" 
+                                                                         BorderBrush="#CBD5E1" BorderThickness="1" Tag="Çalıştırılacak komut (Örn: ipconfig veya gpupdate /force)..." 
+                                                                         Text="Çalıştırılacak komut (Örn: ipconfig veya gpupdate /force)..." Foreground="Gray" GotFocus="TxtRemoteCmd_GotFocus" LostFocus="TxtRemoteCmd_LostFocus"
+                                                                         PreviewMouseDoubleClick="TxtRemoteCmd_PreviewMouseDoubleClick"/>
+
+                                                                <ComboBox Grid.Column="4" x:Name="cmbShellType" Width="105" Height="30" VerticalContentAlignment="Center" SelectedIndex="0">
+                                                                    <ComboBoxItem Content="CMD 🖥️"/>
+                                                                    <ComboBoxItem Content="PowerShell 🟦"/>
+                                                                </ComboBox>
+
+                                                                <Button Grid.Column="6" x:Name="btnRunRemoteCmd" Click="btnRunRemoteCmd_Click" Content="▶ KOMUTU ÇALIŞTIR" Padding="15,0" Height="30"
+                                                                        Background="#3B82F6" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                    <Button.Resources>
+                                                                        <Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style>
+                                                                    </Button.Resources>
+                                                                </Button>
+                                                            </Grid>
+                                                        </Border>
+                                                        
+                                                        <!-- Görsel Bilgilendirme Kartı -->
+                                                        <Border Grid.Row="3" Background="#F8FAFC" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                <TextBlock Text="💻" FontSize="48" HorizontalAlignment="Center" Opacity="0.15"/>
+                                                                <TextBlock Text="Terminal Çıktıları sol alttaki ana log alanında görüntülenecektir." FontSize="11" Foreground="#64748B" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+                                                                <TextBlock Text="Daha detaylı takip ve gerçek zamanlı çıktı akışı için giriş alanına çift tıklayarak Detaylı Terminal penceresini açabilirsiniz." FontSize="10" Foreground="Gray" Margin="0,5,0,0" HorizontalAlignment="Center" TextAlignment="Center" Width="400" TextWrapping="Wrap"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </Grid>
+                                                </Border>
+                                            </TabItem>
+
+                                            <!-- Tab 6: Olay Günlüğü -->
+                                            <TabItem Header="📋 Olay Günlüğü">
+                                                <Border Background="White" CornerRadius="0,8,8,8" Padding="12" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="10"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Grid.Column="0">
+                                                                <TextBlock Text="📋 Uzak Olay Günlüğü (Hata &amp; Uyarılar)" FontWeight="Bold" Foreground="#1E293B" FontSize="14"/>
+                                                                <TextBlock Text="Seçili PC'deki son hata ve uyarı kayıtlarını WMI ile listeler." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                                            </StackPanel>
+                                                            
+                                                            <ComboBox Grid.Column="1" x:Name="cmbEventLogType" Width="140" Height="28" VerticalContentAlignment="Center" SelectedIndex="0">
+                                                                <ComboBoxItem Content="Tümü (Hata/Uyarı)"/>
+                                                                <ComboBoxItem Content="Sadece Hatalar"/>
+                                                                <ComboBoxItem Content="Sadece Uyarılar"/>
+                                                            </ComboBox>
+
+                                                            <Button Grid.Column="3" x:Name="btnGetEventLogs" Click="btnGetEventLogs_Click" Content="🔄 Günlükleri Getir" Width="140" Height="35" VerticalAlignment="Center"
+                                                                    Background="#D97706" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border"><Setter Property="CornerRadius" Value="5"/></Style>
+                                                                </Button.Resources>
+                                                            </Button>
+                                                        </Grid>
+                                                        
+                                                        <DataGrid Grid.Row="1" x:Name="gridEventLogs" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                                  HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9" FontSize="11" MouseDoubleClick="GridEventLogs_MouseDoubleClick">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Binding="{Binding Type}" Header="Tür" Width="70" IsReadOnly="True" FontWeight="Bold"/>
+                                                                <DataGridTextColumn Binding="{Binding Logfile}" Header="Günlük" Width="80" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding TimeGenerated}" Header="Tarih" Width="120" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding SourceName}" Header="Kaynak" Width="120" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding EventCode}" Header="Kod" Width="50" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding Message}" Header="Mesaj (Çift Tıklayın)" Width="*" IsReadOnly="True"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </Border>
+                                            </TabItem>
+
+                                            <!-- Tab 7: Başlangıç Yönetimi -->
+                                            <TabItem Header="🔌 Başlangıç Yönetimi">
+                                                <Border Background="White" CornerRadius="0,8,8,8" Padding="12" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Grid.Column="0">
+                                                                <TextBlock Text="🔌 Başlangıç Programları Yöneticisi" FontWeight="Bold" Foreground="#1E293B" FontSize="14"/>
+                                                                <TextBlock Text="Bilgisayar açılışında otomatik çalışan programları listeler." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                                            </StackPanel>
+                                                            <Button Grid.Column="1" x:Name="btnGetStartupItems" Click="btnGetStartupItems_Click" Content="🔄 Programları Getir" Width="150" Height="35" VerticalAlignment="Center"
+                                                                    Background="#0891B2" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border"><Setter Property="CornerRadius" Value="5"/></Style>
+                                                                </Button.Resources>
+                                                            </Button>
+                                                        </Grid>
+                                                        
+                                                        <DataGrid Grid.Row="1" x:Name="gridStartupItems" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                                  HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9" FontSize="11">
+                                                            <DataGrid.ContextMenu>
+                                                                <ContextMenu>
+                                                                    <MenuItem Header="❌ Başlangıçtan Kaldır (Kaydı Sil)" Click="MenuDeleteStartup_Click"/>
+                                                                </ContextMenu>
+                                                            </DataGrid.ContextMenu>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Binding="{Binding Name}" Header="Program Adı" Width="150" IsReadOnly="True" FontWeight="Bold"/>
+                                                                <DataGridTextColumn Binding="{Binding Command}" Header="Komut / Yol" Width="*" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding Location}" Header="Kayıt Konumu" Width="180" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding User}" Header="Kullanıcı" Width="100" IsReadOnly="True"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </Border>
+                                            </TabItem>
+
+                                            <!-- Tab 8: Kurulu Programlar -->
+                                            <TabItem Header="📦 Kurulu Programlar">
+                                                <Border Background="White" CornerRadius="0,8,8,8" Padding="12" BorderBrush="#E2E8F0" BorderThickness="1">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Grid.Column="0">
+                                                                <TextBlock Text="📦 Uzak Yazılım Listesi &amp; Kaldırma" FontWeight="Bold" Foreground="#1E293B" FontSize="14"/>
+                                                                <TextBlock Text="Uzak bilgisayarda kurulu tüm programları listeler ve sessizce kaldırma imkanı sunar." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                                            </StackPanel>
+                                                            <Button Grid.Column="1" x:Name="btnGetInstalledApps" Click="btnGetInstalledApps_Click" Content="🔄 Programları Listele" Width="160" Height="35" VerticalAlignment="Center"
+                                                                    Background="#4F46E5" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border"><Setter Property="CornerRadius" Value="5"/></Style>
+                                                                </Button.Resources>
+                                                            </Button>
+                                                        </Grid>
+
+                                                        <!-- Arama Filtresi -->
+                                                        <Grid Grid.Row="1" Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Grid.Column="0" Text="Arama Filtresi: " VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,5,0"/>
+                                                            <TextBox Grid.Column="1" x:Name="txtAppFilter" Height="28" VerticalContentAlignment="Center" Padding="5,0" TextChanged="TxtAppFilter_TextChanged" BorderBrush="#CBD5E1"/>
+                                                        </Grid>
+                                                        
+                                                        <DataGrid Grid.Row="2" x:Name="gridInstalledApps" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                                  HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9" FontSize="11">
+                                                            <DataGrid.ContextMenu>
+                                                                <ContextMenu>
+                                                                    <MenuItem Header="🗑️ Programı Sessizce Kaldır (Uninstall)" Click="MenuUninstallApp_Click"/>
+                                                                    <MenuItem Header="📋 UninstallString Kopyala" Click="MenuCopyUninstallString_Click"/>
+                                                                </ContextMenu>
+                                                            </DataGrid.ContextMenu>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Binding="{Binding DisplayName}" Header="Uygulama Adı" Width="2*" IsReadOnly="True" FontWeight="Bold"/>
+                                                                <DataGridTextColumn Binding="{Binding Publisher}" Header="Yayıncı" Width="*" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding DisplayVersion}" Header="Sürüm" Width="80" IsReadOnly="True"/>
+                                                                <DataGridTextColumn Binding="{Binding UninstallString}" Header="Kaldırma Komutu" Width="*" IsReadOnly="True"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </Border>
+                                            </TabItem>
+                                        </TabControl>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="💾 Profil Yedekleme">
+                            <Border Background="White" CornerRadius="0,8,8,8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Üst Bilgi -->
+                                    <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                                        <TextBlock Text="💾 Kullanıcı Profil Yedekleme ve Geri Yükleme" FontSize="16" FontWeight="Bold" Foreground="#1E293B"/>
+                                        <TextBlock Text="Masaüstü, Belgeler, İndirilenler, Tarayıcı verileri, Outlook imzaları, Ağ sürücüleri ve yazıcılarını yedekler veya geri yükler." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                    </StackPanel>
+
+                                    <!-- Orta Panel: İki Sütun (Yedekle / Geri Yükle) -->
+                                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,10">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="20"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Sol Sütun: YEDEKLE -->
+                                            <Border Grid.Column="0" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="15">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <TextBlock Grid.Row="0" Text="📥 Profil Yedekleme (Backup)" FontSize="14" FontWeight="Bold" Foreground="#2563EB" Margin="0,0,0,10"/>
+
+                                                    <!-- Kullanıcı Sorgulama -->
+                                                    <Grid Grid.Row="1" Margin="0,0,0,15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="10"/>
+                                                            <ColumnDefinition Width="130"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel>
+                                                            <TextBlock Text="Uzak/Yerel Kullanıcı Adı" FontSize="11" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,4"/>
+                                                            <TextBox x:Name="txtBackupUsername" Height="30" VerticalContentAlignment="Center" Padding="5" BorderBrush="#CBD5E1"/>
+                                                        </StackPanel>
+                                                        <Button Grid.Column="2" x:Name="btnQueryActiveUser" Click="btnQueryActiveUser_Click" Content="👤 Kullanıcıyı Bul" VerticalAlignment="Bottom" Height="30" Background="#3B82F6" Foreground="White" FontWeight="Bold" BorderThickness="0">
+                                                            <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style></Button.Resources>
+                                                        </Button>
+                                                    </Grid>
+
+                                                    <!-- Yedeklenecekler Listesi -->
+                                                    <StackPanel Grid.Row="2">
+                                                        <TextBlock Text="Yedeklenecek Öğeleri Seçin:" FontSize="11" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,8"/>
+                                                        <CheckBox x:Name="chkBackupDesktop" Content="Masaüstü Dosyaları (Desktop)" IsChecked="True" Margin="0,0,0,6" Foreground="#334155"/>
+                                                        <CheckBox x:Name="chkBackupDocuments" Content="Belgelerim Klasörü (Documents)" IsChecked="True" Margin="0,0,0,6" Foreground="#334155"/>
+                                                        <CheckBox x:Name="chkBackupDownloads" Content="İndirilenler (Downloads) [Büyük boyutlu olabilir]" IsChecked="False" Margin="0,0,0,6" Foreground="#334155"/>
+                                                        <CheckBox x:Name="chkBackupChrome" Content="Google Chrome Şifre ve Profil Ayarları" IsChecked="True" Margin="0,0,0,6" Foreground="#334155"/>
+                                                        <CheckBox x:Name="chkBackupEdge" Content="Microsoft Edge Şifre ve Profil Ayarları" IsChecked="True" Margin="0,0,0,6" Foreground="#334155"/>
+                                                        <CheckBox x:Name="chkBackupOutlookSignatures" Content="Outlook E-Posta İmzaları (Signatures)" IsChecked="True" Margin="0,0,0,6" Foreground="#334155"/>
+                                                        <CheckBox x:Name="chkBackupNetPrinters" Content="Tanımlı Ağ Yazıcıları &amp; Sürücü Harfleri" IsChecked="True" Margin="0,0,0,6" Foreground="#334155"/>
+                                                        <CheckBox x:Name="chkBackupOracleTns" Content="Oracle TNS Yapılandırması (tnsnames.ora)" IsChecked="True" Margin="0,0,0,6" Foreground="#334155"/>
+                                                    </StackPanel>
+
+                                                    <!-- Yedekleme Başlat -->
+                                                    <StackPanel Grid.Row="3" Margin="0,15,0,0">
+                                                        <TextBlock Text="Yedekleme Kayıt Hedefi (Sunucu, Flash Disk, PC vb.)" FontSize="11" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,4"/>
+                                                        <Grid Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="10"/>
+                                                                <ColumnDefinition Width="70"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBox x:Name="txtBackupPath" Text="\\192.168.1.10\p\Yedekler" Height="30" VerticalContentAlignment="Center" Padding="5" BorderBrush="#CBD5E1" ToolTip="Uzak sunucu, yerel harici disk veya diğer PC UNC yolu girin."/>
+                                                            <Button Grid.Column="2" x:Name="btnBrowseBackup" Click="btnBrowseBackup_Click" Content="Gözat..." Height="30" Background="#F1F5F9" BorderBrush="#CBD5E1" BorderThickness="1"/>
+                                                        </Grid>
+                                                        <Button x:Name="btnStartBackup" Click="btnStartBackup_Click" Content="📥 YEDEKLEMEYİ BAŞLAT" Height="45" Background="#2563EB" Foreground="White" FontWeight="Bold" FontSize="13" BorderThickness="0">
+                                                            <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style></Button.Resources>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- Sağ Sütun: GERİ YÜKLE -->
+                                            <Border Grid.Column="2" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="15">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <TextBlock Grid.Row="0" Text="📤 Profil Geri Yükleme (Restore)" FontSize="14" FontWeight="Bold" Foreground="#16A34A" Margin="0,0,0,10"/>
+
+                                                    <!-- Geri Yüklenecek Kullanıcı -->
+                                                    <StackPanel Grid.Row="1" Margin="0,0,0,15">
+                                                        <TextBlock Text="Hedef Windows Kullanıcı Adı (Format Sonrası Yeni PC)" FontSize="11" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,4"/>
+                                                        <TextBox x:Name="txtRestoreUsername" Height="30" VerticalContentAlignment="Center" Padding="5" BorderBrush="#CBD5E1"/>
+                                                    </StackPanel>
+
+                                                    <!-- Geri Yüklenecekler Açıklaması -->
+                                                    <StackPanel Grid.Row="2">
+                                                        <TextBlock Text="Geri Yükleme Bilgisi:" FontSize="11" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,8"/>
+                                                        <TextBlock Text="• Yedek klasörünün içindeki yedeklenmiş tüm veriler (Masaüstü, Belgeler vb.) hedef bilgisayarın belirtilen kullanıcı profiline geri kopyalanır." TextWrapping="Wrap" Foreground="#475569" FontSize="11.5" Margin="0,0,0,6"/>
+                                                        <TextBlock Text="• 'backup_metadata.json' dosyasında kayıtlı olan ağ yazıcıları ve ağ sürücü harfleri otomatik olarak yeniden bağlanır." TextWrapping="Wrap" Foreground="#475569" FontSize="11.5" Margin="0,0,0,6"/>
+                                                        <TextBlock Text="• Tarayıcı şifreleri ve geçmişi sorunsuz aktarılır." TextWrapping="Wrap" Foreground="#475569" FontSize="11.5" Margin="0,0,0,6"/>
+                                                        <TextBlock Text="• Outlook imzaları aktif edilir." TextWrapping="Wrap" Foreground="#475569" FontSize="11.5" Margin="0,0,0,6"/>
+                                                    </StackPanel>
+
+                                                    <!-- Geri Yükleme Başlat -->
+                                                    <StackPanel Grid.Row="3" Margin="0,15,0,0">
+                                                        <TextBlock Text="Geri Yüklenecek Yedek Klasör Yolu" FontSize="11" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,4"/>
+                                                        <Grid Margin="0,0,0,8">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="10"/>
+                                                                <ColumnDefinition Width="70"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBox x:Name="txtRestorePath" Height="30" VerticalContentAlignment="Center" Padding="5" BorderBrush="#CBD5E1" ToolTip="Yedek klasörünün tam yolunu seçin."/>
+                                                            <Button Grid.Column="2" x:Name="btnBrowseRestore" Click="btnBrowseRestore_Click" Content="Seç..." Height="30" Background="#F1F5F9" BorderBrush="#CBD5E1" BorderThickness="1"/>
+                                                        </Grid>
+                                                        <Button x:Name="btnStartRestore" Click="btnStartRestore_Click" Content="📤 YEDEKLERİ GERİ YÜKLE" Height="45" Background="#16A34A" Foreground="White" FontWeight="Bold" FontSize="13" BorderThickness="0">
+                                                            <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style></Button.Resources>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </ScrollViewer>
+
+                                    <!-- Alt Panel: İlerleme & Detay Log -->
+                                    <Border Grid.Row="2" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="15" Margin="0,10,0,0">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid Grid.Row="0" Margin="0,0,0,5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock x:Name="lblBackupStatus" Text="Durum: Hazır" FontWeight="Bold" Foreground="#334155" FontSize="12"/>
+                                                <TextBlock Grid.Column="1" x:Name="lblBackupProgressPct" Text="%0" FontWeight="Bold" Foreground="#2563EB" FontSize="12"/>
+                                            </Grid>
+
+                                            <ProgressBar Grid.Row="1" x:Name="barBackupProgress" Height="12" Minimum="0" Maximum="100" Value="0" Background="#E2E8F0" Foreground="#2563EB" Margin="0,0,0,6"/>
+
+                                            <TextBlock Grid.Row="2" x:Name="lblBackupProgressFile" Text="Kopyalanan dosya: -" FontSize="11" Foreground="#64748B" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="💬 Canlı Sohbet">
+                            <Border Background="White" CornerRadius="0,8,8,8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                                        <TextBlock Text="Anlık Mesajlaşma (Agentless)" FontWeight="Bold" Foreground="#475569" FontSize="16"/>
+                                        <TextBlock Text="Kullanıcı tarafında interaktif bir pencere açılır. Karşılıklı yazışabilirsiniz." FontSize="12" Foreground="Gray" FontStyle="Italic"/>
+                                    </StackPanel>
+
+                                    <Border Grid.Row="1" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="5" Background="#F8FAFC" Margin="0,0,0,10">
+                                        <ListBox x:Name="lstChatHistory" BorderThickness="0" Background="Transparent" Padding="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="0,5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding SenderIcon}" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Top"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding Message}" TextWrapping="Wrap" Foreground="{Binding Color}" FontWeight="{Binding Weight}" VerticalAlignment="Center" FontSize="14" LineHeight="20"/>
+                                                        <TextBlock Grid.Column="2" Text="{Binding Time}" FontSize="11" Foreground="#94A3B8" VerticalAlignment="Bottom" Margin="10,0,0,0"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Border>
+
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox x:Name="txtChatMessage" Height="50" VerticalContentAlignment="Center" Padding="10,0" 
+                                                 BorderBrush="#CBD5E1" FontSize="14" Text="Merhaba, bilgi işlemden yazıyorum..." 
+                                                 KeyDown="txtChatMessage_KeyDown"/>
+
+                                        <Button x:Name="btnSendMessage" Grid.Column="1" Click="btnSendMessage_Click" Content="SOHBET ET" Width="110" Margin="10,0,0,0"
+                                                Background="#3B82F6" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="6"/>
+                                                </Style>
+                                            </Button.Resources>
+                                        </Button>
+
+                                        <Button x:Name="btnSendAnnouncement" Grid.Column="2" Click="btnSendAnnouncement_Click" Content="DUYURU GEÇ" Width="110" Margin="10,0,0,0"
+                                                Background="#EF4444" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="6"/>
+                                                </Style>
+                                            </Button.Resources>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="🖨️ Yazıcı &amp; Kalibrasyon">
+                            <Border Background="White" CornerRadius="0,8,8,8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- SOL TARAF: Uzak Yazıcı Yönetimi & Takılı Yazıcılar -->
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="1.5*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                                            <TextBlock Text="🖨️ Uzak Yazıcı Yönetimi" FontWeight="Bold" Foreground="#1E293B" FontSize="15" Margin="0,0,0,2"/>
+                                            <TextBlock Text="Uzak bilgisayarlara yazıcı kurabilir veya takılı yazıcıları sorgulayabilirsiniz." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                        </StackPanel>
+
+                                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
+                                            <StackPanel>
+                                                <!-- A. TCP/IP Yazıcı Kurulumu -->
+                                                <TextBlock Text="1. Yeni Ağ Yazıcısı Kur (TCP/IP Port)" FontWeight="Bold" Foreground="#3B82F6" FontSize="12" Margin="0,0,0,5"/>
+                                                
+                                                <TextBlock Text="Yazıcı Adı" FontSize="10" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,2"/>
+                                                <TextBox x:Name="txtNewPrinterName" Text="Barkod_Yazici" Height="25" VerticalContentAlignment="Center" Padding="3" Margin="0,0,0,8"/>
+
+                                                <TextBlock Text="Yazıcı IP Adresi" FontSize="10" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,2"/>
+                                                <TextBox x:Name="txtNewPrinterIP" Text="10.235.80.200" Height="25" VerticalContentAlignment="Center" Padding="3" Margin="0,0,0,8"/>
+
+                                                <TextBlock Text="Sürücü (Driver) Adı" FontSize="10" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,2"/>
+                                                <ComboBox x:Name="cmbNewPrinterDriver" IsEditable="True" Height="25" SelectedIndex="0" Margin="0,0,0,8" VerticalContentAlignment="Center">
+                                                    <ComboBoxItem Content="Generic / Text Only"/>
+                                                    <ComboBoxItem Content="ZDesigner GK420t"/>
+                                                    <ComboBoxItem Content="ZDesigner S4M-203dpi ZPL"/>
+                                                    <ComboBoxItem Content="TSC TTP-244 Pro"/>
+                                                    <ComboBoxItem Content="Argox OS-214 plus PPLA"/>
+                                                </ComboBox>
+
+                                                <CheckBox x:Name="chkNewPrinterShare" Content="Kurulum Sonrası Paylaşıma Aç" IsChecked="True" FontSize="10" Foreground="#475569" Margin="0,0,0,8"/>
+                                                
+                                                <Button x:Name="btnInstallPrinter" Click="btnInstallPrinter_Click" Height="32" Margin="0,0,0,10"
+                                                        Background="#10B981" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="4"/>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                    <TextBlock Text="➕ IP ÜZERİNDEN KUR" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                                </Button>
+
+                                                <Separator Height="1" Background="#E2E8F0" Margin="0,2,0,8"/>
+
+                                                <!-- B. Ağdan Paylaşımlı Yazıcı Kur/Bağla -->
+                                                <TextBlock Text="2. Paylaşılan Ağ Yazıcısı Ekle (Ağdan Bağla)" FontWeight="Bold" Foreground="#3B82F6" FontSize="12" Margin="0,0,0,5"/>
+
+                                                <TextBlock Text="Ağ Yazıcı Yolu (Shared Path)" FontSize="10" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,2"/>
+                                                <TextBox x:Name="txtNetworkPrinterPath" Text="\\192.168.1.10\Barkod_Yazici" Height="25" VerticalContentAlignment="Center" Padding="3" Margin="0,0,0,8" ToolTip="Örn: \\sunucu\yazici veya \\IP\paylasimadi"/>
+
+                                                <Button x:Name="btnInstallNetworkPrinter" Click="btnInstallNetworkPrinter_Click" Height="35" Margin="0,0,0,5"
+                                                        Background="#8B5CF6" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="4"/>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                    <TextBlock Text="🔗 AĞDAN PAYLAŞIMLI YAZICI BAĞLA" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                                </Button>
+                                            </StackPanel>
+                                        </ScrollViewer>
+
+                                        <Separator Grid.Row="2" Height="1" Background="#E2E8F0" Margin="0,2,0,8"/>
+
+                                        <!-- C. Takılı Yazıcılar Listesi -->
+                                        <Grid Grid.Row="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid Grid.Row="0" Margin="0,0,0,5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="🔍 Takılı Yazıcılar (Tek PC)" FontWeight="Bold" Foreground="#475569" VerticalAlignment="Center" FontSize="12"/>
+                                                <Button Grid.Column="1" x:Name="btnGetPrinters" Click="btnGetPrinters_Click" Content="🔄 Listele" Padding="8,3" FontSize="10"
+                                                        Background="#F1F5F9" BorderBrush="#CBD5E1" BorderThickness="1" Cursor="Hand">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="3"/>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+                                            </Grid>
+
+                                            <DataGrid Grid.Row="1" x:Name="gridPrinters" AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                      HeadersVisibility="Column" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                                                      GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9" SelectionMode="Single"
+                                                      SelectionChanged="gridPrinters_SelectionChanged" FontSize="11">
+                                                <DataGrid.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="⭐ Varsayılan Yazıcı Yap" Click="MenuSetDefaultPrinter_Click"/>
+                                                    </ContextMenu>
+                                                </DataGrid.ContextMenu>
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Binding="{Binding Name}" Header="Yazıcı Adı" Width="*" IsReadOnly="True" FontWeight="Bold"/>
+                                                    <DataGridTextColumn Binding="{Binding Port}" Header="Port" Width="70" IsReadOnly="True"/>
+                                                    <DataGridTextColumn Binding="{Binding Driver}" Header="Sürücü" Width="90" IsReadOnly="True"/>
+                                                    <DataGridCheckBoxColumn Binding="{Binding Shared}" Header="Payl." Width="35" IsReadOnly="True"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- SAĞ TARAF: Barkod Kalibrasyonu -->
+                                    <Grid Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                                            <TextBlock Text="🏷️ Barkod Yazıcı Kalibrasyonu" FontWeight="Bold" Foreground="#1E293B" FontSize="15" Margin="0,0,0,2"/>
+                                            <TextBlock Text="Yazıcıya doğrudan donanımsal kalibrasyon ve test komutları gönderir." FontSize="11" Foreground="Gray" FontStyle="Italic"/>
+                                        </StackPanel>
+
+                                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
+                                            <StackPanel>
+                                                <TextBlock Text="Bağlantı Türü" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,5"/>
+                                                <StackPanel Orientation="Vertical" Margin="0,0,0,12">
+                                                    <RadioButton x:Name="rbCalibNetwork" Content="Ağ Yazıcısı (Direct TCP IP)" IsChecked="True" Checked="CalibMode_Changed" Margin="0,0,0,6" FontWeight="Medium"/>
+                                                    <RadioButton x:Name="rbCalibLocal" Content="Uzak PC Yerel/Paylaşılan" Checked="CalibMode_Changed" FontWeight="Medium"/>
+                                                </StackPanel>
+
+                                                <TextBlock x:Name="lblCalibTarget" Text="Yazıcı IP Adresi (Port 9100)" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,5"/>
+                                                <TextBox x:Name="txtCalibTarget" Text="10.235.80.200" Height="30" VerticalContentAlignment="Center" Padding="5" Margin="0,0,0,12"/>
+
+                                                <TextBlock Text="Yazıcı Modeli / Şablon" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,5"/>
+                                                <ComboBox x:Name="cmbCalibPreset" Height="30" SelectedIndex="0" Margin="0,0,0,12" SelectionChanged="cmbCalibPreset_SelectionChanged" VerticalContentAlignment="Center">
+                                                    <ComboBoxItem Content="Zebra (ZPL) - Kalibrasyon (~JC)"/>
+                                                    <ComboBoxItem Content="TSC (TSPL) - Kalibrasyon (GAPDETECT)"/>
+                                                    <ComboBoxItem Content="Argox (PPLA) - Kalibrasyon (~S)"/>
+                                                    <ComboBoxItem Content="Honeywell (DP) - Kalibrasyon (TESTFEED)"/>
+                                                    <ComboBoxItem Content="Özel Komut (Ham Metin)"/>
+                                                </ComboBox>
+
+                                                <TextBlock Text="Gönderilecek Ham Komut" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,5"/>
+                                                <TextBox x:Name="txtCalibCommand" Text="~JC" Height="80" TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" Padding="5" Margin="0,0,0,12" FontFamily="Consolas"/>
+                                            </StackPanel>
+                                        </ScrollViewer>
+
+                                        <Button Grid.Row="2" x:Name="btnSendCalib" Click="btnSendCalib_Click" Height="45"
+                                                Background="#3B82F6" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="6"/>
+                                                </Style>
+                                            </Button.Resources>
+                                            <TextBlock Text="⚡ KALİBRASYON KOMUTU GÖNDER" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+                    </TabControl>
+
+                    <Border Grid.Row="1" Background="#0F172A" CornerRadius="10" Padding="15">
+                        <ScrollViewer x:Name="scrollLog">
+                            <TextBlock x:Name="txtLog" Text="> Sistem Hazır... Lütfen işlem türünü seçin." 
+                                       Foreground="#22C55E" FontFamily="Consolas" FontSize="13" TextWrapping="Wrap"
+                                       PreviewMouseLeftButtonDown="TxtLog_PreviewMouseLeftButtonDown" Cursor="Hand" ToolTip="Tüm çıktıyı görmek için çift tıklayın"/>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

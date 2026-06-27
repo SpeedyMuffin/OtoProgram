@@ -1,0 +1,149 @@
+<Window x:Class="OtoProgram.QuickServicesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pratik Servis Seçici" Height="580" Width="780"
+        WindowStartupLocation="CenterOwner" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent"
+        MouseDown="Window_MouseDown">
+
+    <Border Background="#F1F5F9" CornerRadius="12" BorderThickness="1.5" BorderBrush="#CBD5E1">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" Direction="270" ShadowDepth="4" Opacity="0.15" BlurRadius="15"/>
+        </Border.Effect>
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Başlık Çubuğu -->
+            <Grid Grid.Row="0" Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="⚡ Pratik Servis Seçici" FontSize="18" FontWeight="Bold" Foreground="#0F172A"/>
+                    <TextBlock Text="Sık kullanılan kritik Windows servisleri ve açıklamaları" FontSize="11" Foreground="#64748B"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="✕" Click="BtnKapat_Click" Width="30" Height="30"
+                        Background="#EF4444" Foreground="White" BorderThickness="0" FontWeight="Bold" Cursor="Hand">
+                    <Button.Resources>
+                        <Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+
+            <!-- İçerik Alanı -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Sol Kısım: Servis Listesi -->
+                <Border Grid.Column="0" Background="White" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1" Padding="5">
+                    <ListBox x:Name="lstServices" BorderThickness="0" Background="Transparent" 
+                             SelectionChanged="lstServices_SelectionChanged" HorizontalContentAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Margin" Value="2"/>
+                                <Setter Property="Padding" Value="8,6"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#F1F5F9"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="#E2E8F0"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Icon}" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding FriendlyName}" FontWeight="Bold" FontSize="12" Foreground="#334155"/>
+                                        <TextBlock Text="{Binding ServiceName}" FontSize="10" Foreground="#64748B" FontStyle="Italic"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+
+                <!-- Sağ Kısım: Servis Detay Kartı -->
+                <Border Grid.Column="2" Background="White" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                    <Grid x:Name="pnlDetails" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Büyük Simge ve Başlık -->
+                        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,10,0,15">
+                            <TextBlock x:Name="lblDetailIcon" Text="⚙️" FontSize="56" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="lblDetailFriendlyName" Text="Servis Adı" FontSize="16" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" Margin="0,5,0,2"/>
+                            <TextBlock x:Name="lblDetailServiceName" Text="service_name" FontSize="11" Foreground="#475569" FontWeight="SemiBold" FontStyle="Italic" HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Açıklama Başlığı -->
+                        <Border Grid.Row="1" Background="#F8FAFC" CornerRadius="6" BorderBrush="#E2E8F0" BorderThickness="1" Padding="8" Margin="0,0,0,15">
+                            <StackPanel>
+                                <TextBlock Text="📋 SERVİS GÖREVİ &amp; TANIMI" FontSize="10" FontWeight="Bold" Foreground="#475569" Margin="0,0,0,4"/>
+                                <TextBlock x:Name="lblDetailDescription" Text="Servis açıklaması burada görüntülenecektir." FontSize="12" Foreground="#334155" TextWrapping="Wrap" LineHeight="18"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- İpuçları / Ne Zaman Müdahale Edilmeli -->
+                        <Border Grid.Row="2" Background="#FEF3C7" CornerRadius="6" BorderBrush="#FCD34D" BorderThickness="1" Padding="8" VerticalAlignment="Top">
+                            <StackPanel>
+                                <TextBlock Text="💡 NE ZAMAN RE-START / KONTROL EDİLMELİ?" FontSize="10" FontWeight="Bold" Foreground="#92400E" Margin="0,0,0,4"/>
+                                <TextBlock x:Name="lblDetailTip" Text="Müdahale ipuçları." FontSize="11.5" Foreground="#78350F" TextWrapping="Wrap" LineHeight="17"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Eylem Butonları -->
+                        <Grid Grid.Row="3" Margin="0,15,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="btnSelect" Click="BtnSelect_Click" Content="🎯 SERVİSİ SEÇ VE FİLTRELE" Height="36"
+                                    Background="#4F46E5" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                                <Button.Resources>
+                                    <Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button Grid.Column="1" Click="BtnKapat_Click" Content="İptal" Width="70" Height="36" Margin="10,0,0,0"
+                                    Background="#F1F5F9" Foreground="#475569" BorderBrush="#CBD5E1" BorderThickness="1" Cursor="Hand">
+                                <Button.Resources>
+                                    <Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style>
+                                </Button.Resources>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

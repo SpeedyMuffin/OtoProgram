@@ -1,0 +1,70 @@
+<Window x:Class="OtoProgram.MacroEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Makro Şablonları Yönetimi" Height="420" Width="550"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#F3F4F6">
+    <Border Background="White" Margin="15" CornerRadius="8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                <TextBlock Text="⚡ Makro Şablonları Yönetimi" FontSize="16" FontWeight="Bold" Foreground="#1E293B"/>
+                <TextBlock Text="Aşağıdaki listeden makroları ekleyebilir, güncelleyebilir veya silebilirsiniz." FontSize="11" Foreground="Gray"/>
+            </StackPanel>
+
+            <!-- List -->
+            <DataGrid Grid.Row="1" x:Name="gridMacros" AutoGenerateColumns="False" CanUserAddRows="False"
+                      HeadersVisibility="Column" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1"
+                      GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9" SelectionMode="Single"
+                      SelectionChanged="GridMacros_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Ad}" Header="Makro Adı" Width="150" IsReadOnly="True" FontWeight="Bold"/>
+                    <DataGridTextColumn Binding="{Binding Komut}" Header="Komut" Width="*" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Inputs -->
+            <Grid Grid.Row="2" Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Ad:" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#475569"/>
+                <TextBox Grid.Column="1" x:Name="txtAd" Height="26" VerticalContentAlignment="Center" Padding="3" BorderBrush="#CBD5E1"/>
+                
+                <TextBlock Grid.Column="3" Text="Komut:" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#475569"/>
+                <TextBox Grid.Column="4" x:Name="txtKomut" Height="26" VerticalContentAlignment="Center" Padding="3" BorderBrush="#CBD5E1"/>
+            </Grid>
+
+            <!-- Buttons -->
+            <DockPanel Grid.Row="3" LastChildFill="False">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <Button x:Name="btnEkle" Click="BtnEkle_Click" Content="➕ Ekle / Güncelle" Padding="12,6" Background="#10B981" Foreground="White" FontWeight="Bold" BorderThickness="0" Margin="0,0,8,0" Cursor="Hand">
+                        <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style></Button.Resources>
+                    </Button>
+                    <Button x:Name="btnSil" Click="BtnSil_Click" Content="🗑️ Seçileni Sil" Padding="12,6" Background="#EF4444" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                        <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style></Button.Resources>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                    <Button x:Name="btnKaydet" Click="BtnKaydet_Click" Content="💾 Kaydet ve Kapat" Padding="15,6" Background="#3B82F6" Foreground="White" FontWeight="Bold" BorderThickness="0" Margin="0,0,8,0" Cursor="Hand">
+                        <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style></Button.Resources>
+                    </Button>
+                    <Button x:Name="btnVazgec" Click="BtnVazgec_Click" Content="İptal" Padding="15,6" Background="#64748B" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand">
+                        <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="4"/></Style></Button.Resources>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </Grid>
+    </Border>
+</Window>

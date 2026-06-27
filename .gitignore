@@ -1,0 +1,18 @@
+## Ignore Visual Studio temporary files, user settings, and build outputs
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## OS Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## NuGet
+project.lock.json
+project.assets.json
+.nuget/

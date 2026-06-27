@@ -1,0 +1,94 @@
+<Window x:Class="OtoProgram.HbysModullerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="HBYS Yardımcı Modülleri (Demo - Yer Tutucu)" Height="640" Width="480"
+        WindowStartupLocation="CenterScreen" Background="#F8FAFC" FontFamily="Segoe UI"
+        WindowStyle="None" AllowsTransparency="True" MouseDown="Window_MouseDown">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" CornerRadius="0" GlassFrameThickness="0"/>
+    </WindowChrome.WindowChrome>
+
+    <Border Background="#F8FAFC" CornerRadius="12" BorderThickness="1.5" BorderBrush="#CBD5E1">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" Direction="270" ShadowDepth="4" Opacity="0.1" BlurRadius="12"/>
+        </Border.Effect>
+
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Başlık Alanı -->
+            <Grid Grid.Row="0" Margin="0,0,0,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="🏥 HBYS Otomasyon Kurulumu (Demo - Yer Tutucu)" FontSize="20" FontWeight="Bold" Foreground="#0F172A"/>
+                    <TextBlock Text="Genel otomasyon modülleri, kısayolları ve veritabanı istemcisi" FontSize="11" Foreground="#64748B"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="✕" Click="BtnKapat_Click" Width="30" Height="30"
+                        Background="#EF4444" Foreground="White" BorderThickness="0" FontWeight="Bold" Cursor="Hand">
+                    <Button.Resources>
+                        <Style TargetType="Border"><Setter Property="CornerRadius" Value="6"/></Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+
+            <!-- İçerik Alanı -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="0,0,5,0">
+                    
+                    <!-- HBYS Modülleri Kartı -->
+                    <TextBlock Text="🖥️ HBYS Otomasyon Modülleri (Demo - Yer Tutucu)" FontSize="13" FontWeight="Bold" Foreground="#475569" Margin="0,0,0,6"/>
+                    <Border Background="White" CornerRadius="8" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1" Margin="0,0,0,15">
+                        <StackPanel x:Name="stackYanModuller">
+                            <CheckBox Content="Ambar Modülü (Demo - Yer Tutucu)" Margin="0,4" FontSize="13" FontWeight="Medium" Foreground="#334155"/>
+                            <CheckBox Content="Satınalma Modülü (Demo - Yer Tutucu)" Margin="0,4" FontSize="13" FontWeight="Medium" Foreground="#334155"/>
+                            <CheckBox Content="Demirbaş Modülü (Demo - Yer Tutucu)" Margin="0,4" FontSize="13" FontWeight="Medium" Foreground="#334155"/>
+                            <CheckBox Content="Sicil Modülü (Demo - Yer Tutucu)" Margin="0,4" FontSize="13" FontWeight="Medium" Foreground="#334155"/>
+                            <CheckBox Content="Muhasebe Modülü (Demo - Yer Tutucu)" Margin="0,4" FontSize="13" FontWeight="Medium" Foreground="#334155"/>
+                            <CheckBox Content="Laboratuvar LIS Modülü (Demo - Yer Tutucu)" Margin="0,4" FontSize="13" FontWeight="Medium" Foreground="#334155"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Laboratuvar & Oracle Kartı -->
+                    <TextBlock Text="🧪 Laboratuvar Modülleri &amp; ODAC (Demo - Yer Tutucu)" FontSize="13" FontWeight="Bold" Foreground="#0284C7" Margin="0,0,0,6"/>
+                    <Border Background="#F0F9FF" CornerRadius="8" Padding="15" BorderBrush="#BAE6FD" BorderThickness="1">
+                        <StackPanel>
+                            <CheckBox x:Name="chkAlisKur" Content="Yemekhane Modülü (Demo - Yer Tutucu)" Margin="0,4" FontSize="13" FontWeight="Bold" Foreground="#0369A1"/>
+                            <TextBlock Text="* Klasör kopyalama, resmi veritabanı istemcisi kurulumu, TNS_ADMIN yapılandırması ve bölgesel ayarları içerir." FontSize="10.5" Foreground="#0284C7" Margin="22,4,0,0" TextWrapping="Wrap" LineHeight="15"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Durum Göstergesi -->
+                    <Border Background="#F1F5F9" CornerRadius="6" Padding="10" Margin="0,15,0,0" BorderBrush="#E2E8F0" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ℹ️" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" x:Name="lblDurum" Text="Yapılacak işlemleri seçin ve aşağıdaki kurulum butonuna basın..." FontSize="11" Foreground="#475569" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Buton ve Alt Metin -->
+            <StackPanel Grid.Row="2" Margin="0,15,0,0">
+                <Button x:Name="btnModulKur" Content="🚀 SEÇİLENLERİ KUR VE YAPILANDIR" Click="btnModulKur_Click" 
+                        Height="48" Background="#10B981" Foreground="White" FontWeight="Bold" FontSize="14" Cursor="Hand" BorderThickness="0">
+                    <Button.Resources>
+                        <Style TargetType="Border"><Setter Property="CornerRadius" Value="8"/></Style>
+                    </Button.Resources>
+                </Button>
+                <TextBlock Text="Hedef: C:\ | Kısayol: Ortak Masaüstü" FontSize="10" Foreground="#94A3B8" Margin="0,8,0,0" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
