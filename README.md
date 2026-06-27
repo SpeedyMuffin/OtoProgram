@@ -1,5 +1,11 @@
 # 🛠️ Otomasyon Kurulum & Domain Asistanı (v3.6)
 
+<p align="center">
+  <img src="assets/screenshot_login.png" width="22%" alt="Giriş Ekranı" />
+  <img src="assets/screenshot_main.png" width="37%" alt="Ana Panel" />
+  <img src="assets/screenshot_remote.png" width="37%" alt="Uzak Kurulum Paneli" />
+</p>
+
 Bu proje, kurumlar ve kurumsal Active Directory (Domain) ağlarındaki bilgisayarları yönetmek, otomatikleştirmek, uzaktan yazılım/yazıcı kurmak ve envanter toplamak için geliştirilmiş bir **WPF (.NET 8.0)** masaüstü uygulamasıdır.
 
 Uygulama, ağa bağlı olmadan da tüm özellikleri inceleyebilmeniz için **🔓 Gelişmiş Demo Modu** desteğiyle birlikte gelmektedir.
